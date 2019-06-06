@@ -6,18 +6,27 @@
         xmlns:local="clr-namespace:Snake"
         mc:Ignorable="d"
         Title="Snake Game" 
-        ResizeMode="NoResize" 
+        ResizeMode="NoResize" Topmost="True" 
         SizeToContent="WidthAndHeight"
         KeyDown="Window_KeyDown">
     <Grid>
-        <Canvas Name="board" 
-                Height="480" Width="480">
-            <!--<Rectangle 
-                Name="rectangle1"
-                Height="30" Width="30"
-                Canvas.Top="300" Canvas.Left="300"
-                Fill="Green">                
-            </Rectangle>-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label Name="lblGameStatus" FontWeight="Bold"></Label>
+            <Label Name="lblSnakeDirection" FontWeight="Bold"></Label>
+        </StackPanel>
+        <Canvas 
+            Grid.Row="1"
+            Name="board" 
+            Height="480" Width="480">
+            <Rectangle 
+                Name="snakeShape"
+                Fill="MediumBlue"
+                Panel.ZIndex="10">
+            </Rectangle>
         </Canvas>
     </Grid>
 </Window>
