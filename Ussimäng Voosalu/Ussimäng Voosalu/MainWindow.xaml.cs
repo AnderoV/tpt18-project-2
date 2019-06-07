@@ -48,7 +48,7 @@ namespace Snake
             ChangePoints(0);
 
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(0.5);
+            timer.Interval = TimeSpan.FromSeconds(0.25);
             timer.Tick += Timer_Tick;
             timer.Start();
 
@@ -117,6 +117,30 @@ namespace Snake
 
         private void ChangeSnakeDirection(Direction direction)
         {
+            if (snakeDirection == Direction.Left &&
+               direction == Direction.Right)
+            {
+                return;
+            }
+
+            if (snakeDirection == Direction.Right &&
+                direction == Direction.Left)
+            {
+                return;
+            }
+
+            if (snakeDirection == Direction.Up &&
+                direction == Direction.Down)
+            {
+                return;
+            }
+
+            if (snakeDirection == Direction.Down &&
+                direction == Direction.Up)
+            {
+                return;
+            }
+
             snakeDirection = direction;
             lblSnakeDirection.Content =
                 $"Direction: {direction}";
@@ -157,8 +181,25 @@ namespace Snake
             }
 
             bool food =
-                newHeadRow == foodRow &&
-                newHeadCol == foodCol;
+               newHeadRow == foodRow &&
+               newHeadCol == foodCol;
+
+            foreach (Rectangle r in snakeParts)
+            {
+                if (!food && snakeParts.Last.Value == r)
+                {
+                    continue;
+                }
+
+                Location location = (Location)r.Tag;
+                if (location.Row == newHeadRow &&
+                   location.Col == newHeadCol)
+                {
+                    ChangeGameStatus(GameStatus.GameOver);
+                    return;
+                }
+            }
+
             if (food)
             {
                 ChangePoints(points + 1);
